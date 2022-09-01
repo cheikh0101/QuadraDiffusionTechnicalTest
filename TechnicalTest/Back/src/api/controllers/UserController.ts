@@ -29,6 +29,14 @@ export class UserController {
     ).sort((user1, user2) => user1.id - user2.id);
     return result;
   }
+
+  @Get('/:id', { transformResponse: false })
+  @OnNull(404)
+  @ResponseSchema(User)
+  async getOne(@Param('id') id: number): Promise<User | null> {
+    const em = this.appService.getEntityManager();
+    return await em.getRepository<User>('User').findOne({ id });
+  }
   
   @Post('/', { transformResponse: false })
   @ResponseSchema(User)
@@ -49,6 +57,17 @@ export class UserController {
       .findOneOrFail({ id }, { failHandler: () => new NotFoundError() });
     wrap(result).assign(user);
     await em.persistAndFlush(result);
+    return result;
+  }
+
+  @Delete('/:id', { transformResponse: false })
+  @ResponseSchema(User)
+  async remove(@Param('id') id: number) {
+    const em = this.appService.getEntityManager();
+    const result = await em
+      .getRepository<User>('User')
+      .findOneOrFail({ id }, { failHandler: () => new NotFoundError() });
+    em.removeAndFlush(result);
     return result;
   }
 }
