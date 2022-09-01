@@ -6,7 +6,7 @@ export abstract class BaseEntity {
   @IsNumber()
   id!: number;
 
-  @Property({ hidden: true })
+  @Property({ onUpdate: () => new Date(),hidden: true })
   createdAt: Date = new Date();
 
   @Property({ onUpdate: () => new Date(), hidden: true })
