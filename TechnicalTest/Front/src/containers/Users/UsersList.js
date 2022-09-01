@@ -56,7 +56,13 @@ const UsersList = () => {
                                   <EditIcon />
                                 </a>
                               </IconButton>
-                              <IconButton color="secondary"onClick={async () => {}}>
+                              <IconButton color="secondary" onClick={async () => {
+                                if (window.confirm('Are you sure you want to delete this product?')) {
+                                  await fetch(`http://localhost:3001/api/v1/users/${user.id}`, {
+                                      method: 'DELETE'
+                                  });
+                                }
+                              }}>
                                 <DeleteIcon />
                               </IconButton>
                           </TableCell>

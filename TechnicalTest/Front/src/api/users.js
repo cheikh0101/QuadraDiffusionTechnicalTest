@@ -6,5 +6,8 @@ export const getUsers = () =>
 export const modifyUser = (id,payload) =>
     api.put(`/api/v1/users/${id}`,payload);
 
+export const newUser = () =>
+    api.post(`/api/v1/users/`);
+
 export const getUser = ({userId}) =>
     api.get(`/api/v1/users/${userId}`);
